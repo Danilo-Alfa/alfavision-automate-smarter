@@ -236,12 +236,12 @@ const HeroSection = () => {
 
               {/* Dashboard Content */}
               <div className="p-6 bg-gradient-to-br from-background via-card to-background">
-                <div className="grid grid-cols-12 gap-4">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
 
                   {/* Main Chart Area */}
-                  <div className="col-span-8 space-y-4">
+                  <div className="lg:col-span-8 space-y-4">
                     {/* Stats Row */}
-                    <div className="grid grid-cols-4 gap-3">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                       {[
                         { label: "Automações Ativas", value: "1,247", change: "+12%", icon: Zap, color: "text-primary" },
                         { label: "Execuções/Hora", value: "8,439", change: "+28%", icon: Activity, color: "text-green-500" },
@@ -418,7 +418,7 @@ const HeroSection = () => {
                     </motion.div>
 
                     {/* Bottom Stats Row */}
-                    <div className="grid grid-cols-3 gap-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                       {[
                         { label: "Regiões Ativas", value: "12", icon: Globe, desc: "Brasil, USA, EU" },
                         { label: "Uptime Mensal", value: "99.99%", icon: Clock, desc: "Último mês" },
@@ -444,7 +444,7 @@ const HeroSection = () => {
                   </div>
 
                   {/* Side Panel */}
-                  <div className="col-span-4 space-y-4">
+                  <div className="lg:col-span-4 space-y-4">
                     {/* Live Activity */}
                     <motion.div
                       initial={{ opacity: 0, x: 20 }}
