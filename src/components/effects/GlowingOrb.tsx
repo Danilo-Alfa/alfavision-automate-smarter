@@ -14,10 +14,13 @@ const GlowingOrb = ({
   className = ""
 }: GlowingOrbProps) => {
   const colorMap: Record<string, string> = {
-    primary: "rgba(0, 212, 255, 0.3)",
-    accent: "rgba(168, 85, 247, 0.3)",
-    mixed: "linear-gradient(135deg, rgba(0, 212, 255, 0.3), rgba(168, 85, 247, 0.3))",
+    primary: "rgba(0, 212, 255, 0.25)",
+    accent: "rgba(168, 85, 247, 0.25)",
+    mixed: "linear-gradient(135deg, rgba(0, 212, 255, 0.25), rgba(168, 85, 247, 0.25))",
   };
+
+  // Cap blur for performance
+  const cappedBlur = Math.min(blur, 80);
 
   return (
     <motion.div
@@ -26,16 +29,14 @@ const GlowingOrb = ({
         width: size,
         height: size,
         background: colorMap[color] || color,
-        filter: `blur(${blur}px)`,
+        filter: `blur(${cappedBlur}px)`,
+        willChange: "opacity",
       }}
       animate={{
-        scale: [1, 1.2, 1],
-        opacity: [0.3, 0.5, 0.3],
-        x: [0, 30, 0],
-        y: [0, -20, 0],
+        opacity: [0.2, 0.35, 0.2],
       }}
       transition={{
-        duration: 8,
+        duration: 10,
         repeat: Infinity,
         ease: "easeInOut",
       }}

@@ -45,45 +45,35 @@ const HeroSection = () => {
         className="bottom-1/4 right-1/4 translate-x-1/2 translate-y-1/2"
       />
 
-      {/* Animated Grid Pattern */}
+      {/* Static Grid Pattern - removed animation for performance */}
       <div className="absolute inset-0 overflow-hidden">
-        <motion.div
-          className="absolute inset-0 opacity-[0.03]"
+        <div
+          className="absolute inset-0 opacity-[0.02]"
           style={{
             backgroundImage: `linear-gradient(hsl(var(--foreground)) 1px, transparent 1px),
                              linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)`,
             backgroundSize: '60px 60px'
           }}
-          animate={{
-            backgroundPosition: ["0px 0px", "60px 60px"],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            ease: "linear",
-          }}
         />
       </div>
 
-      {/* Floating particles */}
+      {/* Floating particles - reduced for performance */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(20)].map((_, i) => (
+        {[...Array(6)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute w-1 h-1 bg-primary/40 rounded-full"
+            className="absolute w-1 h-1 bg-primary/30 rounded-full"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
+              left: `${15 + i * 15}%`,
+              top: `${20 + (i % 3) * 25}%`,
             }}
             animate={{
-              y: [0, -30, 0],
-              opacity: [0.2, 0.8, 0.2],
-              scale: [1, 1.5, 1],
+              y: [0, -15, 0],
+              opacity: [0.15, 0.4, 0.15],
             }}
             transition={{
-              duration: 3 + Math.random() * 2,
+              duration: 5 + i,
               repeat: Infinity,
-              delay: Math.random() * 2,
               ease: "easeInOut",
             }}
           />
@@ -198,18 +188,9 @@ const HeroSection = () => {
           className="mt-20 relative"
         >
           <div className="relative max-w-6xl mx-auto">
-            {/* Animated Glow Effect */}
-            <motion.div
-              className="absolute -inset-4 bg-gradient-to-r from-primary/20 via-accent/20 to-primary/20 rounded-2xl blur-2xl"
-              animate={{
-                opacity: [0.3, 0.6, 0.3],
-                scale: [1, 1.02, 1],
-              }}
-              transition={{
-                duration: 4,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
+            {/* Glow Effect - simplified for performance */}
+            <div
+              className="absolute -inset-4 bg-gradient-to-r from-primary/15 via-accent/15 to-primary/15 rounded-2xl blur-2xl opacity-40"
             />
 
             {/* Dashboard Preview */}
@@ -399,11 +380,11 @@ const HeroSection = () => {
                               </defs>
                             </svg>
 
-                            {/* Scanning line effect */}
+                            {/* Scanning line effect - slowed down for performance */}
                             <motion.div
-                              className="absolute top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-primary to-transparent"
+                              className="absolute top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-primary/50 to-transparent"
                               animate={{ left: ["0%", "100%"] }}
-                              transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                              transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
                             />
                           </div>
 

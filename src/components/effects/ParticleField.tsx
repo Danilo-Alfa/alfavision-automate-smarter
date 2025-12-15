@@ -29,16 +29,17 @@ const ParticleField = () => {
 
     const createParticles = () => {
       const particles: Particle[] = [];
-      const numParticles = Math.floor((canvas.width * canvas.height) / 15000);
+      // Limit particles for better performance
+      const numParticles = Math.min(50, Math.floor((canvas.width * canvas.height) / 25000));
 
       for (let i = 0; i < numParticles; i++) {
         particles.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
-          vx: (Math.random() - 0.5) * 0.5,
-          vy: (Math.random() - 0.5) * 0.5,
-          radius: Math.random() * 2 + 1,
-          opacity: Math.random() * 0.5 + 0.2,
+          vx: (Math.random() - 0.5) * 0.3,
+          vy: (Math.random() - 0.5) * 0.3,
+          radius: Math.random() * 1.5 + 0.5,
+          opacity: Math.random() * 0.4 + 0.1,
         });
       }
       particlesRef.current = particles;
@@ -80,21 +81,24 @@ const ParticleField = () => {
         ctx.fillStyle = `rgba(0, 212, 255, ${particle.opacity})`;
         ctx.fill();
 
-        // Draw connections
-        particles.slice(i + 1).forEach((other) => {
+        // Draw connections - limit to next 5 particles for performance
+        const connectLimit = Math.min(i + 6, particles.length);
+        for (let j = i + 1; j < connectLimit; j++) {
+          const other = particles[j];
           const dx = particle.x - other.x;
           const dy = particle.y - other.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
+          const distSq = dx * dx + dy * dy;
 
-          if (dist < 120) {
+          if (distSq < 10000) { // 100px squared
+            const dist = Math.sqrt(distSq);
             ctx.beginPath();
             ctx.moveTo(particle.x, particle.y);
             ctx.lineTo(other.x, other.y);
-            ctx.strokeStyle = `rgba(0, 212, 255, ${0.1 * (1 - dist / 120)})`;
+            ctx.strokeStyle = `rgba(0, 212, 255, ${0.08 * (1 - dist / 100)})`;
             ctx.lineWidth = 0.5;
             ctx.stroke();
           }
-        });
+        }
       });
 
       animationRef.current = requestAnimationFrame(drawParticles);

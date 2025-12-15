@@ -1,56 +1,55 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useSpring } from "framer-motion";
 
 const CursorFollower = () => {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isPointer, setIsPointer] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [isPointer, setIsPointer] = useState(false);
+  const lastCheckRef = useRef(0);
 
   const springConfig = { damping: 25, stiffness: 200 };
-  const cursorX = useSpring(mousePosition.x, springConfig);
-  const cursorY = useSpring(mousePosition.y, springConfig);
+  const cursorX = useSpring(0, springConfig);
+  const cursorY = useSpring(0, springConfig);
 
   useEffect(() => {
+    // Hide on mobile/touch devices
+    if (window.matchMedia("(pointer: coarse)").matches) {
+      return;
+    }
+
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
+      cursorX.set(e.clientX);
+      cursorY.set(e.clientY);
       setIsVisible(true);
-    };
 
-    const handleMouseEnter = () => setIsVisible(true);
-    const handleMouseLeave = () => setIsVisible(false);
-
-    const checkForPointer = () => {
-      const hoveredElement = document.elementFromPoint(mousePosition.x, mousePosition.y);
-      if (hoveredElement) {
-        const computedStyle = window.getComputedStyle(hoveredElement);
-        setIsPointer(
-          computedStyle.cursor === "pointer" ||
-          hoveredElement.tagName === "A" ||
-          hoveredElement.tagName === "BUTTON"
-        );
+      // Throttle pointer check to every 150ms
+      const now = Date.now();
+      if (now - lastCheckRef.current > 150) {
+        lastCheckRef.current = now;
+        const target = e.target as HTMLElement;
+        if (target) {
+          const isClickable =
+            target.tagName === "A" ||
+            target.tagName === "BUTTON" ||
+            target.closest("a") ||
+            target.closest("button") ||
+            window.getComputedStyle(target).cursor === "pointer";
+          setIsPointer(!!isClickable);
+        }
       }
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseenter", handleMouseEnter);
-    document.addEventListener("mouseleave", handleMouseLeave);
+    const handleMouseLeave = () => setIsVisible(false);
 
-    const intervalId = setInterval(checkForPointer, 100);
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    document.addEventListener("mouseleave", handleMouseLeave);
 
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseenter", handleMouseEnter);
       document.removeEventListener("mouseleave", handleMouseLeave);
-      clearInterval(intervalId);
     };
-  }, [mousePosition.x, mousePosition.y]);
+  }, [cursorX, cursorY]);
 
-  useEffect(() => {
-    cursorX.set(mousePosition.x);
-    cursorY.set(mousePosition.y);
-  }, [mousePosition, cursorX, cursorY]);
-
-  // Hide on mobile/touch devices
+  // Don't render on touch devices
   if (typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches) {
     return null;
   }
