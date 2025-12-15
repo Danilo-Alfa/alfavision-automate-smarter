@@ -423,6 +423,32 @@ const HeroSection = () => {
                         </motion.div>
                       ))}
                     </div>
+
+                    {/* Popular Integrations */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 1.5 }}
+                      className="p-4 rounded-xl bg-secondary/30 border border-border"
+                    >
+                      <div className="flex items-center justify-between mb-3">
+                        <h4 className="text-sm font-semibold text-foreground">Integrações Populares</h4>
+                        <span className="text-xs text-primary">+200 disponíveis</span>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {["Slack", "Salesforce", "HubSpot", "Google Sheets", "Notion", "Zapier", "Stripe", "Discord"].map((name, i) => (
+                          <motion.div
+                            key={i}
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: 1.6 + i * 0.05 }}
+                            className="px-3 py-1.5 rounded-full bg-background/50 border border-border text-xs text-muted-foreground hover:text-foreground hover:border-primary/50 transition-colors cursor-pointer"
+                          >
+                            {name}
+                          </motion.div>
+                        ))}
+                      </div>
+                    </motion.div>
                   </div>
 
                   {/* Side Panel */}
