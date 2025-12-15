@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Play, Sparkles, Activity, Zap, TrendingUp, Cpu, Database, Shield, Globe, Clock, CheckCircle2 } from "lucide-react";
+import { ArrowRight, Play, Sparkles, Activity, Zap, TrendingUp, Cpu, Database, Shield, Globe, Clock, CheckCircle2, Users } from "lucide-react";
 import AuroraText from "@/components/effects/AuroraText";
 import MagneticButton from "@/components/effects/MagneticButton";
 import GlowingOrb from "@/components/effects/GlowingOrb";
@@ -399,11 +399,12 @@ const HeroSection = () => {
                     </motion.div>
 
                     {/* Bottom Stats Row */}
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                       {[
                         { label: "Regiões Ativas", value: "12", icon: Globe, desc: "Brasil, USA, EU" },
                         { label: "Uptime Mensal", value: "99.99%", icon: Clock, desc: "Último mês" },
                         { label: "Tasks Completas", value: "2.4M", icon: CheckCircle2, desc: "Este mês" },
+                        { label: "Usuários Ativos", value: "5.8k", icon: Users, desc: "Agora online" },
                       ].map((item, i) => (
                         <motion.div
                           key={i}
