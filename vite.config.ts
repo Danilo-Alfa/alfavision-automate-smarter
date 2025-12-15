@@ -5,6 +5,8 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
+  // Base URL para GitHub Pages (nome do repositório)
+  base: "/alfavision-automate-smarter/",
   server: {
     host: "::",
     port: 8080,
